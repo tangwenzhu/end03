@@ -24,5 +24,28 @@ transform {
 }
 
 sink {
-    console{}
+    Hive {
+        table_name = "bigdata_offline_v1_ws.ods_activity_rule"
+        metastore_uri = "thrift://cdh03:9083"
+        hive.hadoop.conf-path = "/etc/hadoop/conf"
+        save_mode = "overwrite"
+        partition_by = ["ds"]
+        dynamic_partition = true
+        file_format = "orc"
+        orc_compress = "SNAPPY"
+        tbl_properties = {
+            "external.table.purge" = "true"
+        }
+        fields = [
+            "id",
+            "activity_id",
+            "activity_type",
+            "condition_amount",
+            "condition_num",
+            "benefit_amount",
+            "benefit_discount",
+            "benefit_level",
+            "ds"
+        ]
+    }
 }
